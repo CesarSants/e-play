@@ -3,7 +3,9 @@ import { createGlobalStyle } from 'styled-components'
 export const cores = {
   branca: '#eeeeee',
   // preta: '#111111',
-  preta: '7, 8, 12',
+  // preta: '7, 8, 12',
+  // preta: 'rgba(7, 8, 12, 1.85)',
+  preta: 'rgb(7, 8, 12)',
   cinza: '#333333',
   verde: '#10ac84'
 }
@@ -18,20 +20,20 @@ export const GlobalCss = createGlobalStyle`
   }
 
   body{
-    background-color: rgba(${cores.preta}, 1.85);
+    background-color: ${cores.preta};
     color: ${cores.branca};
     padding-top: 40px;
 
-    /* ::before {
+    ::before {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.15);
+    background-color: rgba(0, 0, 0, 0.10);
     z-index: -2;
-  } */
+  }
   }
 
   .container {

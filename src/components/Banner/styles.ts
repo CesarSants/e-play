@@ -1,4 +1,5 @@
 import styled from 'styled-components'
+import { TagContainer } from '../Tag/styles'
 
 export const Imagem = styled.div`
   width: 100%;
@@ -10,6 +11,19 @@ export const Imagem = styled.div`
   background-position-y: -35px;
   font-weight: bold;
 
+  .container {
+    /* position: relative;
+    padding-top: 340px; */
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+
+  ${TagContainer} {
+    position: absolute;
+    top: 32px;
+  }
+
   ::before {
     content: '';
     position: absolute;
@@ -17,7 +31,7 @@ export const Imagem = styled.div`
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.15);
+    background-color: rgba(0, 0, 0, 0.1);
     z-index: -2;
   }
 `
