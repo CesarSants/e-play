@@ -11,6 +11,16 @@ export const Card = styled.div`
   ${TagContainer} {
     margin-right: 8px;
   }
+
+  img {
+    height: 250px;
+    width: 222px;
+    overflow-y: hidden;
+    object-fit: cover;
+    /* object-position: center; */
+    object-position: 50% 40%; // porcentagem afeta so as que exedem a altura determinada enquando por px afeta todas
+    /* object-position: 50% -20px; */
+  }
 `
 
 export const Titulo = styled.h3`
