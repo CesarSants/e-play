@@ -6,6 +6,7 @@ export const cores = {
   // preta: '7, 8, 12',
   // preta: 'rgba(7, 8, 12, 1.85)',
   preta: 'rgb(7, 8, 12)',
+  cinzaClaro: '#a3a3a3',
   cinza: '#333333',
   verde: '#10ac84'
 }
