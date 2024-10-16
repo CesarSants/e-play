@@ -5,6 +5,12 @@ export const Container = styled.footer`
   background-color: ${cores.cinza};
   padding: 32px 0;
   font-size: 14px;
+
+  .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 `
 
 export const SectionTitle = styled.h4`
@@ -25,5 +31,6 @@ export const Link = styled.a`
 `
 
 export const FooterSection = styled.div`
-  margin-bottom: 64px;
+  align-items: center;
+  text-align: center;
 `
