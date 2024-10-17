@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { cores } from '../../styles'
+// import { cores } from '../../styles'
 import { TagContainer } from '../Tag/styles'
 // import Button from '../Button'
 

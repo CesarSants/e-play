@@ -1,4 +1,5 @@
-import bannerImg from '../../assets/images/fundo_hogwarts.png'
+// import bannerImg from '../../assets/images/hogwarts.png'
+import bannerImg from '../../assets/images/hog.jpg'
 import Button from '../Button'
 import Tag from '../Tag'
 import { Banner, Infos } from './styles'

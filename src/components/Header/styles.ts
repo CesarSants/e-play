@@ -8,7 +8,7 @@ export const HeaderBar = styled.header`
   margin-bottom: 80px;
   display: flex;
   align-items: center;
-  justify-content: space-between; // iguala o espaço de tds elementos do container deixando um em cada extremidade
+  justify-content: space-between;
 
   a {
     color: ${cores.branca};
