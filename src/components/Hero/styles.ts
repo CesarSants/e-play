@@ -23,7 +23,7 @@ export const Banner = styled.div`
   &::after {
     content: '';
     position: absolute;
-    background-color: rgba(0, 0, 0, 0.01);
+    background-color: rgba(0, 0, 0, 0.65);
     width: 100%;
     height: 100%;
     top: 0;
