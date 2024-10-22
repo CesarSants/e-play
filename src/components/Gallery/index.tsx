@@ -9,7 +9,7 @@ import fechar from '../../assets/images/fechar.png'
 import { Item, Items, Action, Modal, ModalContent } from './styles'
 import { useState } from 'react'
 
-type GalleryItem = {
+interface GalleryItem {
   type: 'image' | 'video'
   url: string
 }
@@ -34,9 +34,18 @@ type Props = {
   name: string
 }
 
+interface ModalState extends GalleryItem {
+  isVisible: boolean
+}
+
 const Gallery = ({ defaultCover, name }: Props) => {
-  const [modalEstaAberto, setModalEstaAberto] = useState(false)
-  const [modalUrl, setModalUrl] = useState('')
+  const [modal, setModal] = useState<ModalState>({
+    isVisible: false,
+    type: 'image',
+    url: ''
+  })
+  // const [modalEstaAberto, setModalEstaAberto] = useState(false)
+  // const [modalUrl, setModalUrl] = useState('')
 
   const getMediaCover = (item: GalleryItem) => {
     if (item.type === 'image') return item.url
@@ -53,6 +62,14 @@ const Gallery = ({ defaultCover, name }: Props) => {
     return 'o video'
   }
 
+  const closeModal = () => {
+    setModal({
+      isVisible: false,
+      type: 'image',
+      url: ''
+    })
+  }
+
   return (
     <>
       <Section title="Galeria" background="black">
@@ -60,9 +77,16 @@ const Gallery = ({ defaultCover, name }: Props) => {
           {mock.map((media, index) => (
             <Item
               key={media.url}
+              // onClick={() => {
+              //   setModalEstaAberto(true)
+              //   setModalUrl(media.url)
+              // }}
               onClick={() => {
-                setModalEstaAberto(true)
-                setModalUrl(media.url)
+                setModal({
+                  isVisible: true,
+                  type: media.type,
+                  url: media.url
+                })
               }}
             >
               <img
@@ -79,13 +103,15 @@ const Gallery = ({ defaultCover, name }: Props) => {
           ))}
         </Items>
       </Section>
-      <Modal className={modalEstaAberto ? 'visivel' : ''}>
+      <Modal className={modal.isVisible ? 'visivel' : ''}>
         <ModalContent className="container">
           <header>
             <h4>{name}</h4>
             <img
               src={fechar}
-              onClick={() => setModalEstaAberto(false)}
+              onClick={() => {
+                closeModal()
+              }}
               alt="Clique aqui para fechar a midia"
             />
             {/* <img
@@ -96,9 +122,23 @@ const Gallery = ({ defaultCover, name }: Props) => {
           })}`}
         /> */}
           </header>
-          <img src={modalUrl} alt="x" />
+          {modal.type === 'image' ? (
+            <img src={modal.url} alt="x" />
+          ) : (
+            <iframe
+              title="YouTube video player"
+              allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture; web-share; fullscreen"
+              referrerPolicy="strict-origin-when-cross-origin"
+              src={modal.url}
+            />
+          )}
         </ModalContent>
-        <div className="overlay"></div>
+        <div
+          onClick={() => {
+            closeModal()
+          }}
+          className="overlay"
+        ></div>
       </Modal>
     </>
   )
