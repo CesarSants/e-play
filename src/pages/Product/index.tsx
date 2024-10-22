@@ -2,6 +2,8 @@ import { useParams } from 'react-router-dom'
 import Hero from '../../components/Hero'
 import Section from '../../components/Section'
 import Header from '../../components/Header'
+import Gallery from '../../components/Gallery'
+import residentEvil from '../../assets/images/resident.png'
 
 // const Product = () => {
 //   const teste = useParams()
@@ -15,6 +17,9 @@ const Product = () => {
 
   return (
     <>
+      <div className="container">
+        <Header isSpecificPage />
+      </div>
       <Hero />
       <Section title="Sobre o jogo" background="black">
         <p>
@@ -42,9 +47,7 @@ const Product = () => {
           jogo.
         </p>
       </Section>
-      <Section title="Galeria" background="black">
-        <div>fotos</div>
-      </Section>
+      <Gallery name="Jogo teste" defaultCover={residentEvil} />
     </>
   )
 }

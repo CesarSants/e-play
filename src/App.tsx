@@ -2,7 +2,8 @@
 import {
   // createBrowserRouter,
   // RouterProvider,
-  BrowserRouter
+  BrowserRouter,
+  useLocation
   // Routes,                            esse metodo é utilizado com o BrowserRouter mas esta importado no arquivo routes
   // Route
 } from 'react-router-dom'
@@ -25,19 +26,47 @@ import Footer from './components/Footer'
 //   }
 // ])
 
+// function App() {
+//   const location = useLocation()
+
+//   // Verifica se a rota atual é '/product/:id'
+//   const isProductPage = location.pathname.includes('/product')
+
+//   return (
+//     <BrowserRouter>
+//       {/* antes aqui era apenas um fragmento*/}
+//       <GlobalCss />
+//       <div className="container">
+//         {/* <Header isSpecificPage /> */}
+//         {!isProductPage && <Header />}
+//       </div>
+//       {/* <RouterProvider router={Rotas} />            esse metodo é utilizado com o json, igual esta comentado no arquivo routes*/}
+//       <Rotas />
+//       <Footer />
+//     </BrowserRouter>
+//   )
+// }
+
+// export default App
+
 function App() {
+  const location = useLocation()
+  const isProductPage = location.pathname.includes('/product')
+
   return (
-    <BrowserRouter>
-      {/* antes aqui era apenas um fragmento*/}
+    <>
       <GlobalCss />
-      <div className="container">
-        <Header />
-      </div>
-      {/* <RouterProvider router={Rotas} />            esse metodo é utilizado com o json, igual esta comentado no arquivo routes*/}
+      <div className="container">{!isProductPage && <Header />}</div>
       <Rotas />
       <Footer />
-    </BrowserRouter>
+    </>
   )
 }
 
-export default App
+export default function AppWrapper() {
+  return (
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  )
+}
