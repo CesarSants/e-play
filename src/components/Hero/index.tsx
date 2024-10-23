@@ -1,29 +1,73 @@
 // import bannerImg from '../../assets/images/hogwarts.png'
-import bannerImg from '../../assets/images/hog.jpg'
+// import bannerImg from '../../assets/images/hog.jpg'
+import { Game } from '../../pages/Home'
 import Button from '../Button'
 import Tag from '../Tag'
+import { formataPreco } from '../ProductsList'
 import { Banner, Infos } from './styles'
 
-const Hero = () => (
-  <Banner style={{ backgroundImage: `url(${bannerImg})` }}>
+export type Props = {
+  game: Game
+}
+
+const Hero = ({ game }: Props) => (
+  <Banner style={{ backgroundImage: `url(${game.media.cover})` }}>
     <div className="container">
       <div>
-        <Tag>RPG</Tag>
-        <Tag>PS5</Tag>
+        <Tag>{game.details.category}</Tag>
+        <Tag>{game.details.system}</Tag>
       </div>
-      <Infos>
-        <h2>Hogwarts Legacy</h2>
+      <Infos game={game}>
+        <h2>{game.name}</h2>
         <p>
-          <span>De R$ 250,00</span>
-          Por R$ 190,00
+          {/* {game.prices.discount ? (
+            <>
+              <span>De {formataPreco(game.prices.old)}</span>
+              Por {formataPreco(game.prices.current)}
+            </>
+          ) : (
+            <>{formataPreco(game.prices.current)}</>
+          )} */}
+
+          {game.prices.discount ? (
+            <>
+              <span>De {formataPreco(game.prices.old)}</span>
+              Por {formataPreco(game.prices.current)}
+            </>
+          ) : (
+            <>
+              {game.prices.current ? (
+                formataPreco(game.prices.current)
+              ) : (
+                <>
+                  Disponível em: <span>{game.release_date}</span>
+                </>
+              )}
+            </>
+          )}
+
+          {/* {game.prices.discount ? (                                 data na mesma linha
+            <>
+              <span>De {formataPreco(game.prices.old)}</span>
+              Por {formataPreco(game.prices.current)}
+            </>
+          ) : (
+            <>
+              {game.prices.current
+                ? formataPreco(game.prices.current)
+                : `Disponível em: ${game.release_date}`}
+            </>
+          )} */}
         </p>
-        <Button
-          variant="primary"
-          title="Clique aqui para adicionar ao carrinho"
-          type="button"
-        >
-          Adicionar ao carrinho
-        </Button>
+        {game.prices.current && (
+          <Button
+            variant="primary"
+            title="Clique aqui para adicionar ao carrinho"
+            type="button"
+          >
+            Adicionar ao carrinho
+          </Button>
+        )}
       </Infos>
     </div>
   </Banner>

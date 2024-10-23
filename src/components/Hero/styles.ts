@@ -1,6 +1,8 @@
 import styled from 'styled-components'
 // import { cores } from '../../styles'
 import { TagContainer } from '../Tag/styles'
+import { Props } from '.'
+// import Button from '../Button'
 // import Button from '../Button'
 
 // export const StyledButton = styled(Button)`
@@ -45,7 +47,7 @@ export const Banner = styled.div`
   }
 `
 
-export const Infos = styled.div`
+export const Infos = styled.div<Props>`
   padding: 16px;
   background-color: rgba(7, 8, 12, 0.7);
   max-width: 290px;
@@ -59,9 +61,10 @@ export const Infos = styled.div`
     font-size: 18px;
     margin: 16px 0;
 
-    span {
+    > span {
       display: block;
-      text-decoration: line-through;
+      text-decoration: ${(props) =>
+        props.game.release_date ? 'underline' : 'line-through'};
     }
   }
 `
