@@ -1,15 +1,20 @@
 import Banner from '../../components/Banner'
 import ProductsList from '../../components/ProductsList'
-// import Game from '../../models/Game'
-// import resident from '../../assets/images/resident.png'
-// import diablo from '../../assets/images/diablo.png'
-// import zelda from '../../assets/images/zelda.png'
-// import starWars from '../../assets/images/star_wars.png'
-// import fifa from '../../assets/images/ea-sports-fc-24-capa.png'
-// import street from '../../assets/images/street.png'
-// import assassins from '../../assets/images/assassins2.png'
-// import battlefield from '../../assets/images/battlefield.jpg'
-import { useEffect, useState } from 'react'
+{
+  /* <div>
+  // import Game from '../../models/Game'
+  // import resident from '../../assets/images/resident.png'
+  // import diablo from '../../assets/images/diablo.png'
+  // import zelda from '../../assets/images/zelda.png'
+  // import starWars from '../../assets/images/star_wars.png'
+  // import fifa from '../../assets/images/ea-sports-fc-24-capa.png'
+  // import street from '../../assets/images/street.png'
+  // import assassins from '../../assets/images/assassins2.png'
+  // import battlefield from '../../assets/images/battlefield.jpg'
+  // import { useEffect, useState } from 'react' //utilizado no metodo sem redux
+</div> */
+}
+import { useGetOnSaleQuery, useGetSoonQuery } from '../../services/api'
 
 export interface GalleryItem {
   type: 'image' | 'video'
@@ -127,28 +132,35 @@ export type Game = {
 // ]
 
 const Home = () => {
-  const [promocoes, setPromocoes] = useState<Game[]>([])
-  const [emBreve, setEmBreve] = useState<Game[]>([])
+  // const [promocoes, setPromocoes] = useState<Game[]>([])
+  // const [emBreve, setEmBreve] = useState<Game[]>([])
 
-  useEffect(() => {
-    fetch('https://fake-api-tau.vercel.app/api/eplay/promocoes')
-      .then((res) => res.json())
-      .then((res) => setPromocoes(res))
-  }, [])
+  // useEffect(() => {
+  //   fetch('https://fake-api-tau.vercel.app/api/eplay/promocoes')
+  //     .then((res) => res.json())
+  //     .then((res) => setPromocoes(res))
+  // }, [])
 
-  useEffect(() => {
-    fetch('https://fake-api-tau.vercel.app/api/eplay/em-breve')
-      .then((res) => res.json())
-      .then((res) => setEmBreve(res))
-  }, [])
+  // useEffect(() => {
+  //   fetch('https://fake-api-tau.vercel.app/api/eplay/em-breve')
+  //     .then((res) => res.json())
+  //     .then((res) => setEmBreve(res))
+  // }, [])                 // usado antes de aplicar o redux api
 
-  return (
-    <>
-      <Banner />
-      <ProductsList games={promocoes} title="Promoções" background="gray" />
-      <ProductsList games={emBreve} title="Em breve" background="black" />
-    </>
-  )
+  const { data: onSaleGames } = useGetOnSaleQuery()
+  const { data: soonGames } = useGetSoonQuery()
+
+  if (onSaleGames && soonGames) {
+    // usando com redux
+    return (
+      <>
+        <Banner />
+        <ProductsList games={onSaleGames} title="Promoções" background="gray" />
+        <ProductsList games={soonGames} title="Em breve" background="black" />
+      </>
+    )
+  }
+  return <h4>Carregando...</h4> //usado com redux
 }
 
 export default Home

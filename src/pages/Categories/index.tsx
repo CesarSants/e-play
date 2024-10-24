@@ -1,23 +1,34 @@
 import { useEffect, useState } from 'react'
 import ProductsList from '../../components/ProductsList'
-// import Game from '../../models/Game'
-// import resident from '../../assets/images/resident.png'
-// import diablo from '../../assets/images/diablo.png'
-// import zelda from '../../assets/images/zelda.png'
-// import starWars from '../../assets/images/star_wars.png'
-// import fifa from '../../assets/images/ea-sports-fc-24-capa.png'
-// import street from '../../assets/images/street.png'
-// import assassins from '../../assets/images/assassins2.png'
-// import battlefield from '../../assets/images/battlefield.jpg'
-// import fantasy from '../../assets/images/Final_Fantasy.png'
-// import hogwarts from '../../assets/images/hogwarts.png'
-// import duty from '../../assets/images/call-of-duty.png'
-// import uncharted from '../../assets/images/Uncharted.png'
-// import god from '../../assets/images/good-of-war.jpg'
-// import nba from '../../assets/images/nba.png'
-// import topspin from '../../assets/images/topspin2.png'
-// import madden from '../../assets/images/madden.jpg'
+{
+  /* <div>
+  // import Game from '../../models/Game'
+  // import resident from '../../assets/images/resident.png'
+  // import diablo from '../../assets/images/diablo.png'
+  // import zelda from '../../assets/images/zelda.png'
+  // import starWars from '../../assets/images/star_wars.png'
+  // import fifa from '../../assets/images/ea-sports-fc-24-capa.png'
+  // import street from '../../assets/images/street.png'
+  // import assassins from '../../assets/images/assassins2.png'
+  // import battlefield from '../../assets/images/battlefield.jpg'
+  // import fantasy from '../../assets/images/Final_Fantasy.png'
+  // import hogwarts from '../../assets/images/hogwarts.png'
+  // import duty from '../../assets/images/call-of-duty.png'
+  // import uncharted from '../../assets/images/Uncharted.png'
+  // import god from '../../assets/images/good-of-war.jpg'
+  // import nba from '../../assets/images/nba.png'
+  // import topspin from '../../assets/images/topspin2.png'
+  // import madden from '../../assets/images/madden.jpg'
+</div> */
+}
 import { Game } from '../Home'
+import {
+  useGetActionGamesQuery,
+  useGetFightGamesQuery,
+  useGetRpgGamesQuery,
+  useGetSimulationGamesQuery,
+  useGetSportGamesQuery
+} from '../../services/api'
 
 // const rpg: Game[] = [
 //   // {
@@ -192,51 +203,56 @@ import { Game } from '../Home'
 // ]
 
 const Categories = () => {
-  const [gamesAcao, setGameAcao] = useState<Game[]>([])
-  const [gamesEsportes, setGameEsportes] = useState<Game[]>([])
-  const [gamesSimulacao, setGameSimulacao] = useState<Game[]>([])
-  const [gamesLuta, setGameLuta] = useState<Game[]>([])
-  const [gamesRPG, setGameRPG] = useState<Game[]>([])
+  // const [gamesAcao, setGameAcao] = useState<Game[]>([])
+  // const [gamesEsportes, setGameEsportes] = useState<Game[]>([])
+  // const [gamesSimulacao, setGameSimulacao] = useState<Game[]>([])
+  // const [gamesLuta, setGameLuta] = useState<Game[]>([])
+  // const [gamesRPG, setGameRPG] = useState<Game[]>([])
 
-  useEffect(() => {
-    fetch('https://fake-api-tau.vercel.app/api/eplay/acao')
-      .then((res) => res.json())
-      .then((res) => setGameAcao(res))
+  // useEffect(() => {
+  //   fetch('https://fake-api-tau.vercel.app/api/eplay/acao')
+  //     .then((res) => res.json())
+  //     .then((res) => setGameAcao(res))
 
-    fetch('https://fake-api-tau.vercel.app/api/eplay/esportes')
-      .then((res) => res.json())
-      .then((res) => setGameEsportes(res))
+  //   fetch('https://fake-api-tau.vercel.app/api/eplay/esportes')
+  //     .then((res) => res.json())
+  //     .then((res) => setGameEsportes(res))
 
-    fetch('https://fake-api-tau.vercel.app/api/eplay/simulacao')
-      .then((res) => res.json())
-      .then((res) => setGameSimulacao(res))
+  //   fetch('https://fake-api-tau.vercel.app/api/eplay/simulacao')
+  //     .then((res) => res.json())
+  //     .then((res) => setGameSimulacao(res))
 
-    fetch('https://fake-api-tau.vercel.app/api/eplay/luta')
-      .then((res) => res.json())
-      .then((res) => setGameLuta(res))
+  //   fetch('https://fake-api-tau.vercel.app/api/eplay/luta')
+  //     .then((res) => res.json())
+  //     .then((res) => setGameLuta(res))
 
-    fetch('https://fake-api-tau.vercel.app/api/eplay/rpg')
-      .then((res) => res.json())
-      .then((res) => setGameRPG(res))
-  }, [])
+  //   fetch('https://fake-api-tau.vercel.app/api/eplay/rpg')
+  //     .then((res) => res.json())
+  //     .then((res) => setGameRPG(res))
+  // }, [])
 
-  return (
-    <>
-      {/* <ProductsList games={rpg} title="RPG" background="gray" />
-      <ProductsList games={acao} title="Ação" background="black" />
-      <ProductsList games={aventura} title="Aventura" background="gray" />
-      <ProductsList games={esportes} title="Esportes" background="black" /> */}
-      <ProductsList games={gamesAcao} title="Ação" background="gray" />
-      <ProductsList games={gamesEsportes} title="Esportes" background="black" />
-      <ProductsList
-        games={gamesSimulacao}
-        title="Simulação"
-        background="gray"
-      />
-      <ProductsList games={gamesLuta} title="Luta" background="black" />
-      <ProductsList games={gamesRPG} title="RPG" background="gray" />
-    </>
-  )
+  const { data: actionGames } = useGetActionGamesQuery()
+  const { data: fightGames } = useGetFightGamesQuery()
+  const { data: rpgGames } = useGetRpgGamesQuery()
+  const { data: sportGames } = useGetSportGamesQuery()
+  const { data: simulationGames } = useGetSimulationGamesQuery()
+
+  if (actionGames && simulationGames && sportGames && fightGames && rpgGames) {
+    return (
+      <>
+        <ProductsList games={actionGames} title="Ação" background="gray" />
+        <ProductsList games={sportGames} title="Esportes" background="black" />
+        <ProductsList
+          games={simulationGames}
+          title="Simulação"
+          background="gray"
+        />
+        <ProductsList games={fightGames} title="Luta" background="black" />
+        <ProductsList games={rpgGames} title="RPG" background="gray" />
+      </>
+    )
+  }
+  return <h4>Carregando...</h4>
 }
 
 export default Categories

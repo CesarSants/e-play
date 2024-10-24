@@ -1,20 +1,25 @@
 // import React from 'react'
+import { Provider } from 'react-redux'
 import {
-  // createBrowserRouter,
-  // RouterProvider,
   BrowserRouter,
   useLocation
+  //_____________________________________________________
+  // createBrowserRouter,
+  // RouterProvider,
   // Routes,                            esse metodo é utilizado com o BrowserRouter mas esta importado no arquivo routes
   // Route
+  //_____________________________________________________
 } from 'react-router-dom'
+
 import Header from './components/Header'
 import { GlobalCss } from './styles'
+import Rotas from './routes'
+import Footer from './components/Footer'
+import { store } from './store'
 // import Home from './pages/Home'
 // import Categories from './pages/Categories'                   esta importado no arquivo routes
 
-import Rotas from './routes'
-import Footer from './components/Footer'
-
+//________________________________________________________________________________________________________________________________
 // const rotas = createBrowserRouter([               esse metodo é utilizaDO usando o router provider, porem o header esta antes dele
 //   {                                               entao para resolver esse problema utilizamos o Browser router no fragmento e a escrita
 //     path: '/',                                    deixa de ser como json e passa a ser como uma função igual esta feita abaixo
@@ -25,7 +30,7 @@ import Footer from './components/Footer'
 //     element: <Categories />
 //   }
 // ])
-
+//___________________________________________________________________________________________
 // function App() {
 //   const location = useLocation()
 
@@ -46,8 +51,8 @@ import Footer from './components/Footer'
 //     </BrowserRouter>
 //   )
 // }
-
 // export default App
+//______________________________________________________________________________________________________
 
 function App() {
   const location = useLocation()
@@ -65,8 +70,10 @@ function App() {
 
 export default function AppWrapper() {
   return (
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </Provider>
   )
 }
