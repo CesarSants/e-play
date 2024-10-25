@@ -2,6 +2,7 @@ import styled from 'styled-components'
 // import { cores } from '../../styles'
 import { TagContainer } from '../Tag/styles'
 import { Props } from '.'
+// import { ButtonContainer } from '../Button/styles'
 // import Button from '../Button'
 // import Button from '../Button'
 
@@ -19,7 +20,7 @@ export const Banner = styled.div`
   background-position: center;
   background-size: cover;
   /* background-size: 100%; */
-  z-index: -1;
+  z-index: 1;
   padding-top: 16px;
 
   &::after {

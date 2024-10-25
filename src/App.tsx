@@ -16,6 +16,7 @@ import { GlobalCss } from './styles'
 import Rotas from './routes'
 import Footer from './components/Footer'
 import { store } from './store'
+import Cart from './components/Cart'
 // import Home from './pages/Home'
 // import Categories from './pages/Categories'                   esta importado no arquivo routes
 
@@ -64,6 +65,7 @@ function App() {
       <div className="container">{!isProductPage && <Header />}</div>
       <Rotas />
       <Footer />
+      <Cart />
     </>
   )
 }
