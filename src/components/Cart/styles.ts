@@ -54,11 +54,12 @@ export const CartContainer = styled.div`
   top: 0;
   right: -100%;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   display: flex;
   justify-content: flex-end;
   z-index: 1;
   transition: transform 1s ease;
+  overflow-y: hidden;
 
   &.is-open {
     transform: translateX(-100%);
@@ -70,7 +71,13 @@ export const Sidebar = styled.aside`
   background-color: ${cores.cinza};
   max-width: 360px;
   width: 100%;
-  padding: 40px 16px 0 16px;
+  padding: 40px 16px 16px 16px;
+  overflow-y: auto;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 
   ${ButtonContainer} {
     max-width: 100%;
