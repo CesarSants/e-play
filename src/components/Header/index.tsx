@@ -4,7 +4,8 @@ import {
   LinkItem,
   Links,
   CartButton,
-  HeaderContainer
+  HeaderContainer,
+  HashLin
 } from './styles'
 import logo from '../../assets/images/logo.svg'
 import carrinho from '../../assets/images/carrinho.svg'
@@ -38,10 +39,10 @@ const Header = ({ isSpecificPage }: Props) => {
                 <Link to={'/categories'}>Categorias</Link>
               </LinkItem>
               <LinkItem>
-                <a href="#">Novidades</a>
+                <HashLin to="/#comming-soon">Em breve</HashLin>
               </LinkItem>
               <LinkItem>
-                <a href="#">Promoções</a>
+                <HashLin to="/#on-sale">Promoções</HashLin>
               </LinkItem>
             </Links>
           </nav>

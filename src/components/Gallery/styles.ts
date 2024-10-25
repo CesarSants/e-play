@@ -1,8 +1,18 @@
 import styled from 'styled-components'
-import { cores } from '../../styles'
+import { breakpoints, cores } from '../../styles'
 
 export const Items = styled.ul`
   display: flex;
+  gap: 16px;
+  flex-wrap: nowrap;
+  @media (max-width: ${breakpoints.desktop}) {
+    overflow-x: scroll;
+    /* ::-webkit-scrollbar {
+      display: none;
+    }
+    scrollbar-width: none;
+    -ms-overflow-style: none; */
+  }
 `
 
 export const Action = styled.div`
@@ -20,7 +30,6 @@ export const Action = styled.div`
 `
 
 export const Item = styled.li`
-  margin-right: 16px;
   position: relative;
   cursor: pointer;
 
@@ -54,6 +63,15 @@ export const Modal = styled.div`
   display: none;
   align-items: center;
   justify-content: center;
+
+  @media (max-width: ${breakpoints.desktop}) {
+    /* overflow-x: scroll; */
+    /* ::-webkit-scrollbar {
+      display: none;
+    }
+    scrollbar-width: none;
+    -ms-overflow-style: none; */
+  }
 
   &.visivel {
     display: flex;
@@ -105,5 +123,14 @@ export const ModalContent = styled.div`
     width: 100%;
     height: 70vh;
     border: none;
+  }
+
+  @media (max-width: ${breakpoints.desktop}) {
+    /* overflow-x: scroll;
+    ::-webkit-scrollbar {
+      display: none;
+    }
+    scrollbar-width: none;
+    -ms-overflow-style: none; */
   }
 `

@@ -54,7 +54,7 @@ export const CartContainer = styled.div`
   top: 0;
   right: -100%;
   width: 100%;
-  height: 100vh;
+  height: 100%;
   display: flex;
   justify-content: flex-end;
   z-index: 1;

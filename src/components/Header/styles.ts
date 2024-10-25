@@ -1,6 +1,7 @@
 import styled from 'styled-components'
-import { cores } from '../../styles'
+import { breakpoints, cores } from '../../styles'
 import { Props } from '.'
+import { HashLink } from 'react-router-hash-link'
 
 export const HeaderContainer = styled.div<Props>`
   background-color: ${cores.preta};
@@ -45,6 +46,9 @@ export const HeaderBar = styled.header`
   justify-content: space-between;
   z-index: 200;
 
+  @media (max-width: ${breakpoints.tablet}) {
+  }
+
   a {
     color: ${cores.branca};
     text-decoration: none;
@@ -72,4 +76,10 @@ export const CartButton = styled.a`
   img {
     margin-left: 16px;
   }
+`
+
+export const HashLin = styled(HashLink)`
+  color: ${cores.cinzaClaro};
+  text-decoration: none;
+  margin-right: 8px;
 `

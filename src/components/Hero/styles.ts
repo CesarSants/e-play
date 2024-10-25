@@ -2,6 +2,7 @@ import styled from 'styled-components'
 // import { cores } from '../../styles'
 import { TagContainer } from '../Tag/styles'
 import { Props } from '.'
+import { breakpoints } from '../../styles'
 // import { ButtonContainer } from '../Button/styles'
 // import Button from '../Button'
 // import Button from '../Button'
@@ -22,6 +23,10 @@ export const Banner = styled.div`
   /* background-size: 100%; */
   z-index: 1;
   padding-top: 16px;
+
+  @media (max-width: ${breakpoints.tablet}) {
+    background-size: cover;
+  }
 
   &::after {
     content: '';

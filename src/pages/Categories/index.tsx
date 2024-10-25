@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react'
-import ProductsList from '../../components/ProductsList'
 {
   /* <div>
+  // import { useEffect, useState } from 'react'
+  // import { Game } from '../Home'
   // import Game from '../../models/Game'
   // import resident from '../../assets/images/resident.png'
   // import diablo from '../../assets/images/diablo.png'
@@ -21,7 +21,7 @@ import ProductsList from '../../components/ProductsList'
   // import madden from '../../assets/images/madden.jpg'
 </div> */
 }
-import { Game } from '../Home'
+import ProductsList from '../../components/ProductsList'
 import {
   useGetActionGamesQuery,
   useGetFightGamesQuery,
@@ -240,15 +240,31 @@ const Categories = () => {
   if (actionGames && simulationGames && sportGames && fightGames && rpgGames) {
     return (
       <>
-        <ProductsList games={actionGames} title="Ação" background="gray" />
-        <ProductsList games={sportGames} title="Esportes" background="black" />
+        <ProductsList
+          games={actionGames}
+          title="Ação"
+          background="gray"
+          id="action"
+        />
+        <ProductsList
+          games={sportGames}
+          title="Esportes"
+          background="black"
+          id="sports"
+        />
         <ProductsList
           games={simulationGames}
           title="Simulação"
           background="gray"
+          id="simulation"
         />
-        <ProductsList games={fightGames} title="Luta" background="black" />
-        <ProductsList games={rpgGames} title="RPG" background="gray" />
+        <ProductsList
+          games={fightGames}
+          title="Luta"
+          background="black"
+          id="fight"
+        />
+        <ProductsList games={rpgGames} title="RPG" background="gray" id="rpg" />
       </>
     )
   }
