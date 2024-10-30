@@ -4,10 +4,7 @@ import { Props } from '.'
 import { HashLink } from 'react-router-hash-link'
 
 export const HeaderContainer = styled.div<Props>`
-  /* background-color: ${cores.preta}; */
   color: ${cores.branca};
-  /* position: relative; //@ */
-  /* transition: margin-bottom 0.3s; //@ */
 
   ::before {
     content: '';
@@ -34,6 +31,7 @@ export const HeaderContainer = styled.div<Props>`
         180deg, ${cores.preta}, #2F2F42
       );
       z-index: -1;
+    transition: height 1.2s ease, visibility 1.2s ease;
     }
   `}
 
@@ -41,6 +39,9 @@ export const HeaderContainer = styled.div<Props>`
     props.isSpecificPage &&
     `&.is-open::after {
       height: 278px;
+      transition: max-height 1s ease, visibility 1s ease;
+      opacity: 1;
+      visibility: visible;
     }`}
 `
 export const Links = styled.ul`
@@ -51,9 +52,6 @@ export const Links = styled.ul`
     margin-left: 0;
     display: block;
   }
-  /* @media (min-width: 790px) {
-    display: none;
-  } */
 `
 
 export const HeaderBar = styled.header`
@@ -61,9 +59,6 @@ export const HeaderBar = styled.header`
   padding: 24px;
   border-radius: 16px;
   margin-bottom: 80px;
-  /* display: flex;
-  align-items: center;
-  justify-content: space-between; */
   z-index: 1;
 
   @media (min-width: 789px) {
@@ -74,26 +69,18 @@ export const HeaderBar = styled.header`
     text-decoration: none;
     font-weight: bold;
   }
-
-  /* > div {
-    display: flex;
-    align-items: center;
-
-    @media (max-width: 789px) {
-      flex: auto;
-      justify-content: space-between;
-
-      ${Links} {
-        display: none;
-      }
-    }
-  } */
 `
 export const NavMobile = styled.nav`
-  display: none;
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  visibility: hidden;
+  transition: max-height 0.65s ease, visibility 0.65s ease;
 
   &.is-open {
-    display: block;
+    max-height: 237px;
+    opacity: 1;
+    visibility: visible;
   }
 `
 

@@ -3,12 +3,14 @@ import { TagContainer } from '../Tag/styles'
 
 export const Imagem = styled.div`
   width: 100%;
+  /* max-height: 560px;
+  height: 100%; */
   height: 560px;
   display: block;
   background-repeat: no-repeat;
   background-size: cover;
   position: relative;
-  background-position-y: -35px;
+  /* background-position-y: -350px; */
   font-weight: bold;
 
   .container {
