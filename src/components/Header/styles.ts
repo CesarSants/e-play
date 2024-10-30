@@ -4,8 +4,10 @@ import { Props } from '.'
 import { HashLink } from 'react-router-hash-link'
 
 export const HeaderContainer = styled.div<Props>`
-  background-color: ${cores.preta};
+  /* background-color: ${cores.preta}; */
   color: ${cores.branca};
+  /* position: relative; //@ */
+  /* transition: margin-bottom 0.3s; //@ */
 
   ::before {
     content: '';
@@ -34,6 +36,24 @@ export const HeaderContainer = styled.div<Props>`
       z-index: -1;
     }
   `}
+
+  ${(props) =>
+    props.isSpecificPage &&
+    `&.is-open::after {
+      height: 278px;
+    }`}
+`
+export const Links = styled.ul`
+  display: flex;
+  margin-left: 40px;
+
+  @media (max-width: 789px) {
+    margin-left: 0;
+    display: block;
+  }
+  /* @media (min-width: 790px) {
+    display: none;
+  } */
 `
 
 export const HeaderBar = styled.header`
@@ -41,12 +61,12 @@ export const HeaderBar = styled.header`
   padding: 24px;
   border-radius: 16px;
   margin-bottom: 80px;
-  display: flex;
+  /* display: flex;
   align-items: center;
-  justify-content: space-between;
-  z-index: 200;
+  justify-content: space-between; */
+  z-index: 1;
 
-  @media (max-width: ${breakpoints.tablet}) {
+  @media (min-width: 789px) {
   }
 
   a {
@@ -55,18 +75,40 @@ export const HeaderBar = styled.header`
     font-weight: bold;
   }
 
-  div {
+  /* > div {
     display: flex;
     align-items: center;
-  }
+
+    @media (max-width: 789px) {
+      flex: auto;
+      justify-content: space-between;
+
+      ${Links} {
+        display: none;
+      }
+    }
+  } */
 `
-export const Links = styled.ul`
-  display: flex;
-  margin-left: 40px;
+export const NavMobile = styled.nav`
+  display: none;
+
+  &.is-open {
+    display: block;
+  }
 `
 
 export const LinkItem = styled.li`
   margin-right: 16px;
+
+  @media (max-width: 789px) {
+    margin-right: 0;
+
+    a {
+      display: block;
+      padding: 16px 0;
+      text-align: center;
+    }
+  }
 `
 
 export const CartButton = styled.a`
@@ -76,10 +118,61 @@ export const CartButton = styled.a`
   img {
     margin-left: 16px;
   }
+
+  span {
+    @media (max-width: 789px) {
+      //opcional
+      display: none;
+    }
+  }
 `
 
 export const HashLin = styled(HashLink)`
   color: ${cores.cinzaClaro};
   text-decoration: none;
   margin-right: 8px;
+
+  @media (max-width: 789px) {
+    margin-right: 0;
+  }
+`
+
+export const Hamburguer = styled.div`
+  width: 32px;
+
+  span {
+    height: 2px;
+    display: block;
+    width: 100%;
+    background-color: ${cores.branca};
+    margin-bottom: 4px;
+
+    &:last-child {
+      margin-bottom: 0px;
+    }
+
+    @media (min-width: 790px) {
+      display: none;
+    }
+  }
+`
+
+export const HeaderRow = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  > div {
+    display: flex;
+    align-items: center;
+
+    @media (max-width: 789px) {
+      flex: auto;
+      justify-content: space-between;
+
+      ${Links} {
+        display: none;
+      }
+    }
+  }
 `
