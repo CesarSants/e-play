@@ -83,6 +83,10 @@ export const Sidebar = styled.aside`
     max-width: 100%;
     width: 100%;
   }
+
+  @media (max-width: 500px) {
+    max-width: 283px;
+  }
 `
 
 //__________________________________________________________________________________________________________
@@ -115,7 +119,8 @@ export const CartItem = styled.li`
 
   img {
     height: 80px;
-    width: 80px;
+    width: 100%;
+    max-width: 80px;
     object-fit: cover;
     margin-right: 24px;
   }
