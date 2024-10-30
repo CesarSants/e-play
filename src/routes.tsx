@@ -8,6 +8,7 @@ import {
 import Home from './pages/Home'
 import Categories from './pages/Categories'
 import Product from './pages/Product'
+import Checkout from './pages/Checkout'
 
 // const rotas = createBrowserRouter([               esse metodo é utilizaDO usando o router provider, porem o header esta antes dele
 //   {                                               entao para resolver esse problema utilizamos o Browser router no fragmento e a escrita
@@ -25,6 +26,7 @@ const Rotas = () => (
     <Route path="/" element={<Home />} />
     <Route path="/categories" element={<Categories />} />
     <Route path="/product/:id" element={<Product />} />
+    <Route path="/checkout" element={<Checkout />} />
   </Routes>
 )
 

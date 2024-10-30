@@ -1,4 +1,3 @@
-import { table } from 'console'
 import { createGlobalStyle } from 'styled-components'
 
 export const cores = {
