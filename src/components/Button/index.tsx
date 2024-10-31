@@ -1,7 +1,7 @@
 import { ButtonContainer, ButtonLink } from './styles'
 
 export type Props = {
-  type: 'button' | 'link'
+  type: 'button' | 'link' // outra solução é criar um tipo submit
   title: string
   to?: string
   onClick?: () => void
@@ -20,11 +20,12 @@ const Button = ({
   htmlType = 'button'
 }: Props) => {
   if (type === 'button') {
+    // colocar || que siguinifica ou depois do fechamento da aspas de button e colocar type submit
     return (
       <ButtonContainer
         variant={variant}
         as="button"
-        type={htmlType}
+        type={htmlType} //e em type recebe {type}, nesse caso nao serie necessario o "as" e nem o html type nas props
         title={title}
         onClick={onClick}
       >

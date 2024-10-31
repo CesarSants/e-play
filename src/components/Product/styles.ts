@@ -12,6 +12,7 @@ export const Card = styled(Link)`
   cursor: pointer;
   color: ${cores.branca};
   display: block;
+  height: 100%;
 
   ${TagContainer} {
     margin-right: 8px;

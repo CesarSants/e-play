@@ -31,7 +31,7 @@ export const Action = styled.div`
 
 export const Item = styled.li`
   position: relative;
-  cursor: pointer;
+  cursor: zoom-in;
 
   &:last-child {
     margin-right: 0px;
@@ -40,8 +40,8 @@ export const Item = styled.li`
   > img {
     border: 2px solid ${cores.branca};
     border-radius: 8px;
-    width: 150px;
-    height: 150px;
+    width: 140px;
+    height: 140px;
     object-fit: cover;
   }
 

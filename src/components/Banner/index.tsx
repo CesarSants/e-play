@@ -1,22 +1,23 @@
-import { Imagem, BannerContainer, Titulo, Precos } from './styles'
-// import bannerImg from '../../assets/images/banner-homem-aranha.png'
 import Tag from '../Tag'
 import Button from '../Button'
-// import { useEffect, useState } from 'react' //utilizado no metodo sem redux
-// import { Game } from '../../pages/Home'
-import { formataPreco } from '../ProductsList'
 
+import { formataPreco } from '../../utils'
 import { useGetfeaturedGameQuery } from '../../services/api'
 
-const Banner = () => {
-  const { data: game, isLoading } = useGetfeaturedGameQuery()
+import { Imagem, BannerContainer, Titulo, Precos } from './styles'
 
-  // const [game, setGame] = useState<Game>()            //metodo usado sem a importação da api usando redux
-  // useEffect(() => {
-  //   fetch('https://fake-api-tau.vercel.app/api/eplay/destaque')
-  //     .then((res) => res.json())
-  //     .then((res) => setGame(res))
-  // }, [])
+const Banner = () => {
+  const { data: game } = useGetfeaturedGameQuery()
+  {
+    /*
+// const [game, setGame] = useState<Game>()            //metodo usado sem a importação da api usando redux
+// useEffect(() => {
+//   fetch('https://fake-api-tau.vercel.app/api/eplay/destaque')
+//     .then((res) => res.json())
+//     .then((res) => setGame(res))
+// }, [])
+*/
+  }
 
   if (!game) {
     return <h3>Carregando...</h3>

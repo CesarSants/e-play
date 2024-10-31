@@ -1,4 +1,13 @@
+import { useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+
+import { open } from '../../store/reducers/cart'
+import { RootReducer } from '../../store'
+
+import carrinho from '../../assets/images/carrinho.svg'
+import logo from '../../assets/images/logo.svg'
+
 import {
   HeaderBar,
   LinkItem,
@@ -10,12 +19,6 @@ import {
   HeaderRow,
   NavMobile
 } from './styles'
-import logo from '../../assets/images/logo.svg'
-import carrinho from '../../assets/images/carrinho.svg'
-import { open } from '../../store/reducers/cart'
-import { useDispatch, useSelector } from 'react-redux'
-import { RootReducer } from '../../store'
-import { useState } from 'react'
 
 export type Props = {
   isSpecificPage?: boolean
@@ -38,42 +41,73 @@ const Header = ({ isSpecificPage }: Props) => {
       <HeaderBar>
         <HeaderRow>
           <div>
-            <Hamburguer onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            <Hamburguer
+              title="Clique aqui para abrir o menu"
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+            >
               <span></span>
               <span></span>
               <span></span>
             </Hamburguer>
-            <Link to={'/'}>
+            <Link
+              onClick={() => setIsMenuOpen(false)}
+              title="Clique aqui para volta a Home"
+              to={'/'}
+            >
               <img src={logo} alt="EPLAY" />
             </Link>
             {/* <img src={logo} alt="EPLAY" /> */}
             <nav>
               <Links>
                 <LinkItem>
-                  <Link to={'/categories'}>Categorias</Link>
+                  <Link
+                    title="Clique aqui para acessar a página de categorias"
+                    to={'/categories'}
+                  >
+                    Categorias
+                  </Link>
                 </LinkItem>
                 <LinkItem>
-                  <HashLin to="/#comming-soon">Em breve</HashLin>
+                  <HashLin
+                    title="Clique aqui para acessar a seção de em breve"
+                    to="/#comming-soon"
+                  >
+                    Em breve
+                  </HashLin>
                 </LinkItem>
                 <LinkItem>
-                  <HashLin to="/#on-sale">Promoções</HashLin>
+                  <HashLin
+                    title="Clique aqui para acessar a seção de promoçoes"
+                    to="/#on-sale"
+                  >
+                    Promoções
+                  </HashLin>
                 </LinkItem>
               </Links>
             </nav>
           </div>
           {items.length > 1 ? (
-            <CartButton onClick={openCart}>
+            <CartButton
+              title="Clique aqui para acessar o carrinho"
+              onClick={openCart}
+            >
               {items.length}
               <span>&nbsp;-&nbsp;produtos</span>
               <img src={carrinho} alt="carrinho" />
             </CartButton>
           ) : items.length === 1 ? (
-            <CartButton onClick={openCart}>
+            <CartButton
+              title="Clique aqui para acessar o carrinho"
+              onClick={openCart}
+            >
               {items.length} <span>&nbsp;-&nbsp;produto</span>
               <img src={carrinho} alt="carrinho" />
             </CartButton>
           ) : (
-            <CartButton onClick={openCart}>
+            <CartButton
+              title="Clique aqui para acessar o carrinho"
+              onClick={openCart}
+            >
               <span>Carrinho vazio </span> <img src={carrinho} alt="carrinho" />
             </CartButton>
           )}
@@ -85,13 +119,31 @@ const Header = ({ isSpecificPage }: Props) => {
         <NavMobile className={isMenuOpen ? 'is-open' : ''}>
           <Links>
             <LinkItem>
-              <Link to={'/categories'}>Categorias</Link>
+              <Link
+                title="Clique aqui para acessar a página de categorias"
+                to={'/categories'}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Categorias
+              </Link>
             </LinkItem>
             <LinkItem>
-              <HashLin to="/#comming-soon">Em breve</HashLin>
+              <HashLin
+                title="Clique aqui para acessar a seção de em breve"
+                to="/#comming-soon"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Em breve
+              </HashLin>
             </LinkItem>
             <LinkItem>
-              <HashLin to="/#on-sale">Promoções</HashLin>
+              <HashLin
+                title="Clique aqui para acessar a seção de promoçoes"
+                to="/#on-sale"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Promoções
+              </HashLin>
             </LinkItem>
           </Links>
         </NavMobile>

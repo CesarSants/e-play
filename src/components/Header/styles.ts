@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { breakpoints, cores } from '../../styles'
+import { cores } from '../../styles'
 import { Props } from '.'
 import { HashLink } from 'react-router-hash-link'
 

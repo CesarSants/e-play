@@ -1,5 +1,12 @@
+import { useDispatch, useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
+
 import Button from '../Button'
-import starWars from '../../assets/images/star_wars.png'
+import Tag from '../Tag'
+
+import { RootReducer } from '../../store'
+import { close, remove } from '../../store/reducers/cart'
+import { formataPreco, getTotalPrice } from '../../utils'
 
 import {
   Overlay,
@@ -9,28 +16,23 @@ import {
   Quantity,
   CartItem
 } from './styles'
-import Tag from '../Tag'
-import { useDispatch, useSelector } from 'react-redux'
-import { RootReducer } from '../../store'
-import { close, remove } from '../../store/reducers/cart'
-import { formataPreco } from '../ProductsList'
 
 const Cart = () => {
   const { isOpen, items } = useSelector((state: RootReducer) => state.cart)
+  const navigate = useNavigate()
 
   const dispatch = useDispatch()
   const closeCart = () => {
     dispatch(close())
   }
 
-  const getTotalPrice = () => {
-    return items.reduce((acumulador, valorAtual) => {
-      return (acumulador += valorAtual.prices.current!)
-    }, 0)
-  }
-
   const removeItem = (id: number) => {
     dispatch(remove(id))
+  }
+
+  const goToCheckout = () => {
+    navigate('/checkout')
+    closeCart()
   }
 
   return (
@@ -64,12 +66,16 @@ const Cart = () => {
         )}
         {items.length >= 1 ? (
           <Prices>
-            Total de {formataPreco(getTotalPrice())}{' '}
+            Total de {formataPreco(getTotalPrice(items))}{' '}
             <span>Em até 6x sem juros</span>
           </Prices>
         ) : null}
 
-        <Button type="button" title="Clique aqui para continuar com a compra">
+        <Button
+          onClick={goToCheckout}
+          type="button"
+          title="Clique aqui para continuar com a compra"
+        >
           Continuar com a compra
         </Button>
       </Sidebar>

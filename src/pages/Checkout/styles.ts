@@ -35,6 +35,10 @@ export const InputGroup = styled.div<InputGroupProps>`
     border: 1px solid ${cores.branca};
     width: 100%;
     margin-bottom: 4px;
+
+    &.error {
+      border: 1px solid red;
+    }
   }
 
   small {
@@ -125,5 +129,45 @@ export const TabButton = styled.button<TabButtonProps>`
 
   img {
     margin-right: 8px;
+  }
+`
+
+export const ContainerGeral = styled.div`
+  #totalPrice {
+    text-align: center;
+    display: block;
+    padding-top: 10px;
+    border-top: 1px solid ${cores.branca};
+  }
+
+  .revise {
+    display: flex;
+    justify-content: space-evenly;
+    column-gap: 24px;
+    row-gap: 40px;
+    flex-wrap: wrap;
+
+    li {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      max-width: 309px;
+      width: 100%;
+      text-align: center;
+      bottom: 0;
+      padding: 8px;
+
+      > div {
+        margin-bottom: 16px;
+      }
+
+      img {
+        max-height: 293px;
+        height: 100%;
+        max-width: 293px;
+        width: 100%;
+        object-fit: cover;
+      }
+    }
   }
 `

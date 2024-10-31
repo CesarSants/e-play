@@ -1,8 +1,11 @@
 import { useParams } from 'react-router-dom'
+
 import Hero from '../../components/Hero'
 import Section from '../../components/Section'
 import Header from '../../components/Header'
 import Gallery from '../../components/Gallery'
+
+import { useGetGameQuery } from '../../services/api'
 {
   /* <div>
   // import residentEvil from '../../assets/images/resident.png'
@@ -10,7 +13,6 @@ import Gallery from '../../components/Gallery'
   // import { Game } from '../Home'
 </div> */
 }
-import { useGetGameQuery } from '../../services/api'
 
 // const Product = () => {
 //   const teste = useParams()
@@ -53,7 +55,7 @@ const Product = () => {
           <br />
           <b>Desenvolvedor:</b> {game.details.developer} <br />
           <b>Editora:</b> {game.details.publisher} <br />
-          <b>Idiomas:</b> O jogo oferece suporte a diversos idiomas, incluindo{' '}
+          <b>Idiomas:</b> O jogo oferece suporte a diversos idiomas, incluindo
           {game.details.languages.join(', ')} .As opções de áudio e legendas
           podem ser ajustadas nas configurações do jogo.
         </p>
