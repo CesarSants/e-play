@@ -15,7 +15,7 @@ import { RootReducer } from '../../store'
 import { formataPreco, getTotalPrice } from '../../utils'
 
 import { InputGroup, Row, Cont, TabButton, ContainerGeral } from './styles'
-import { remove } from '../../store/reducers/cart'
+import { remove, clearItems } from '../../store/reducers/cart'
 
 type Installment = {
   quantity: number
@@ -111,6 +111,7 @@ const Checkout = () => {
         payWithCard ? schema.required('O campo é obrigatorio') : schema
       )
     }),
+
     onSubmit: (values) => {
       purchase({
         billing: {
@@ -145,6 +146,10 @@ const Checkout = () => {
           }
         ]
       })
+      // if (isSuccess) {
+      //   // Limpar o carrinho após a finalização da compra
+      //   dispatch(clearItems())
+      // }
     }
   })
 
@@ -210,6 +215,12 @@ const Checkout = () => {
   const removeItem = (id: number) => {
     dispatch(remove(id))
   }
+
+  // const clear = () => {
+  //   if (isSuccess) {
+  //     dispatch(clearItems())
+  //   }
+  // }
 
   return (
     <ContainerGeral className="container">
@@ -643,6 +654,7 @@ const Checkout = () => {
             htmlType="submit"
             type="button"
             title="Clique aqui para finalizar a compra"
+            // onClick={clear}
           >
             Finalizar a compra
           </Button>
