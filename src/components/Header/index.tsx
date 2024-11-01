@@ -54,7 +54,9 @@ const Header = ({ isSpecificPage }: Props) => {
               title="Clique aqui para volta a Home"
               to={'/'}
             >
-              <img src={logo} alt="EPLAY" />
+              <h1>
+                <img src={logo} alt="EPLAY" />
+              </h1>
             </Link>
             {/* <img src={logo} alt="EPLAY" /> */}
             <nav>

@@ -1,7 +1,6 @@
 {
   /* <div>
   // import { useEffect, useState } from 'react'
-  // import { Game } from '../Home'
   // import Game from '../../models/Game'
   // import resident from '../../assets/images/resident.png'
   // import diablo from '../../assets/images/diablo.png'

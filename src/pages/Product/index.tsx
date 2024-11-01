@@ -11,7 +11,6 @@ import Loader from '../../components/Loader'
   /* <div>
   // import residentEvil from '../../assets/images/resident.png'
   // import { useEffect, useState } from 'react' //usado na sem o redux
-  // import { Game } from '../Home'
 </div> */
 }
 

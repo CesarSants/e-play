@@ -1,5 +1,3 @@
-import { Game } from '../pages/Home'
-
 export const formataPreco = (preco = 0) => {
   return new Intl.NumberFormat('pt-br', {
     style: 'currency',

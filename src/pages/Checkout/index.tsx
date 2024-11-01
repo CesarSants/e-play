@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
 import { useDispatch, useSelector } from 'react-redux'
+import InputMask from 'react-input-mask'
 
 import Button from '../../components/Button'
 import Card from '../../components/Card'
@@ -26,7 +27,7 @@ type Installment = {
 
 const Checkout = () => {
   const [payWithCard, setPayWithCard] = useState(false)
-  const [purchase, { data, isSuccess }] = usePurchaseMutation()
+  const [purchase, { data, isSuccess, isLoading }] = usePurchaseMutation()
   const { items } = useSelector((state: RootReducer) => state.cart)
   const [installments, setInstallments] = useState<Installment[]>([])
   const dispatch = useDispatch()
@@ -100,8 +101,8 @@ const Checkout = () => {
         .when((values, schema) =>
           payWithCard ? schema.required('O campo é obrigatorio') : schema
         )
-        .min(4, 'O campo deve conter os 4 numeros do ano')
-        .max(4, 'O campo deve conter os 4 numeros do ano'),
+        .min(2, 'O campo deve conter os 2 ultimos numeros do ano')
+        .max(2, 'O campo deve conter os 2 ultimos numeros do ano'),
       cardCode: Yup.string()
         .when((values, schema) =>
           payWithCard ? schema.required('O campo é obrigatorio') : schema
@@ -140,12 +141,10 @@ const Checkout = () => {
             }
           }
         },
-        products: [
-          {
-            id: 1,
-            price: 10
-          }
-        ]
+        products: items.map((item) => ({
+          id: item.id,
+          price: item.prices.current as number
+        }))
       })
       // if (isSuccess) {
       //   // Limpar o carrinho após a finalização da compra
@@ -209,6 +208,16 @@ const Checkout = () => {
     }
   }, [totalPrice])
 
+  // useEffect(() => {
+  //   if (isSuccess) {
+  //     dispatch(clearItems())
+  //   }
+  // }, [isSuccess, dispatch])
+
+  // if (items.length === 0 && isSuccess === false) {
+  //   return <Navigate to="/" />
+  // }
+
   if (items.length === 0) {
     return <Navigate to="/" />
   }
@@ -225,7 +234,7 @@ const Checkout = () => {
 
   return (
     <ContainerGeral className="container">
-      {isSuccess ? (
+      {isSuccess && data ? (
         <Card title="Muito obrigado">
           <div>
             <p>
@@ -246,6 +255,12 @@ const Checkout = () => {
               <br />
               Forma de pagamento:
               {payWithCard ? ' Cartão de credito' : ' Boleto Bancário'}
+              <br />
+              {payWithCard
+                ? `Parcelado em: ${form.values.installments}x de ${formataPreco(
+                    totalPrice / form.values.installments
+                  )}`
+                : ''}
             </p>
             <br />
             <p>
@@ -325,7 +340,7 @@ const Checkout = () => {
                 <InputGroup>
                   <div className="group">
                     <label htmlFor="telefone">Telefone:</label>
-                    <input
+                    <InputMask
                       id="telefone"
                       type="tel"
                       name="telefone"
@@ -333,6 +348,7 @@ const Checkout = () => {
                       onChange={form.handleChange}
                       onBlur={form.handleBlur}
                       className={checkInputHasError('telefone') ? 'error' : ''}
+                      mask={'(99)99999-9999'}
                     />
                   </div>
                   <small>
@@ -342,7 +358,7 @@ const Checkout = () => {
                 <InputGroup>
                   <div className="group">
                     <label htmlFor="cpf">CPF:</label>
-                    <input
+                    <InputMask
                       id="cpf"
                       type="text"
                       name="cpf"
@@ -350,6 +366,7 @@ const Checkout = () => {
                       onChange={form.handleChange}
                       onBlur={form.handleBlur}
                       className={checkInputHasError('cpf') ? 'error' : ''}
+                      mask={'999.999.999-99'}
                     />
                   </div>
                   <small>{getErrorMessage('cpf', form.errors.cpf)}</small>
@@ -459,7 +476,7 @@ const Checkout = () => {
                         <label htmlFor="cpfCardOwner">
                           CPF do titular do cartão:
                         </label>
-                        <input
+                        <InputMask
                           id="cpfCardOwner"
                           type="text"
                           name="cpfCardOwner"
@@ -469,6 +486,7 @@ const Checkout = () => {
                           className={
                             checkInputHasError('cpfCardOwner') ? 'error' : ''
                           }
+                          mask={'999.999.999-99'}
                         />
                       </div>
                       <small>
@@ -527,7 +545,7 @@ const Checkout = () => {
                           <label htmlFor="expiresMonth">
                             Mês de vencimento
                           </label>
-                          <input
+                          <InputMask
                             id="expiresMonth"
                             type="text"
                             name="expiresMonth"
@@ -537,6 +555,7 @@ const Checkout = () => {
                             className={
                               checkInputHasError('expiresMonth') ? 'error' : ''
                             }
+                            mask={'99'}
                           />
                         </div>
                         <small>
@@ -549,7 +568,7 @@ const Checkout = () => {
                       <InputGroup maxWidth="95px">
                         <div className="group">
                           <label htmlFor="expiresYear">Ano de vencimento</label>
-                          <input
+                          <InputMask
                             id="expiresYear"
                             type="text"
                             name="expiresYear"
@@ -559,6 +578,7 @@ const Checkout = () => {
                             className={
                               checkInputHasError('expiresYear') ? 'error' : ''
                             }
+                            mask={'99'}
                           />
                         </div>
                         <small>
@@ -572,7 +592,7 @@ const Checkout = () => {
                     <InputGroup id="cardCode1" maxWidth="48px">
                       <div className="group">
                         <label htmlFor="cardCode">CVV</label>
-                        <input
+                        <InputMask
                           id="cardCode"
                           type="text"
                           name="cardCode"
@@ -582,6 +602,7 @@ const Checkout = () => {
                           className={
                             checkInputHasError('cardCode') ? 'error' : ''
                           }
+                          mask={'999'}
                         />
                       </div>
                       <small>
@@ -593,7 +614,7 @@ const Checkout = () => {
                     <InputGroup id="cardCode2" maxWidth="48px">
                       <div className="group">
                         <label htmlFor="cardCode">CVV</label>
-                        <input
+                        <InputMask
                           id="cardCode"
                           type="text"
                           name="cardCode"
@@ -603,6 +624,7 @@ const Checkout = () => {
                           className={
                             checkInputHasError('cardCode') ? 'error' : ''
                           }
+                          mask={'999'}
                         />
                       </div>
                       <small>
@@ -656,8 +678,9 @@ const Checkout = () => {
             type="button"
             title="Clique aqui para finalizar a compra"
             // onClick={clear}
+            disabled={isLoading}
           >
-            Finalizar a compra
+            {isLoading ? 'Finalizando Compra...' : 'Finalizar a compra'}
           </Button>
         </Cont>
       )}

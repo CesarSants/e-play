@@ -74,9 +74,13 @@ const Cart = () => {
         <Button
           onClick={goToCheckout}
           type="button"
-          title="Clique aqui para continuar com a compra"
+          title={
+            items.length >= 1
+              ? 'Clique aqui para continuar com a compra'
+              : 'Clique aqui para voltar a Loja'
+          }
         >
-          Continuar com a compra
+          {items.length >= 1 ? 'Finalize a compra' : 'Volte para a Loja'}
         </Button>
       </Sidebar>
     </CartContainer>

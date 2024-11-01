@@ -1,5 +1,4 @@
 // import Game from '../../models/Game'
-import { Game } from '../../pages/Home'
 import { formataPreco } from '../../utils'
 import Loader from '../Loader'
 import Product from '../Product'

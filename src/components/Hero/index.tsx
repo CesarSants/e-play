@@ -1,6 +1,5 @@
 // import bannerImg from '../../assets/images/hogwarts.png'
 // import bannerImg from '../../assets/images/hog.jpg'
-import { Game } from '../../pages/Home'
 import Button from '../Button'
 import Tag from '../Tag'
 import { formataPreco } from '../../utils'

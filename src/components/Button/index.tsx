@@ -8,6 +8,7 @@ export type Props = {
   children: string | JSX.Element
   variant?: 'primary' | 'secondary'
   htmlType?: 'button' | 'submit' | 'reset'
+  disabled?: boolean
 }
 
 const Button = ({
@@ -17,7 +18,8 @@ const Button = ({
   onClick,
   children,
   variant = 'primary',
-  htmlType = 'button'
+  htmlType = 'button',
+  disabled
 }: Props) => {
   if (type === 'button') {
     // colocar || que siguinifica ou depois do fechamento da aspas de button e colocar type submit
@@ -28,6 +30,7 @@ const Button = ({
         type={htmlType} //e em type recebe {type}, nesse caso nao serie necessario o "as" e nem o html type nas props
         title={title}
         onClick={onClick}
+        disabled={disabled}
       >
         {children}
       </ButtonContainer>
