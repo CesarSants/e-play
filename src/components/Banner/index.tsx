@@ -1,5 +1,6 @@
 import Tag from '../Tag'
 import Button from '../Button'
+import Loader from '../Loader'
 
 import { formataPreco } from '../../utils'
 import { useGetfeaturedGameQuery } from '../../services/api'
@@ -20,7 +21,7 @@ const Banner = () => {
   }
 
   if (!game) {
-    return <h3>Carregando...</h3>
+    return <Loader />
   }
 
   return (

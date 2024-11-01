@@ -15,7 +15,8 @@ import { RootReducer } from '../../store'
 import { formataPreco, getTotalPrice } from '../../utils'
 
 import { InputGroup, Row, Cont, TabButton, ContainerGeral } from './styles'
-import { remove, clearItems } from '../../store/reducers/cart'
+// import { remove, clearItems } from '../../store/reducers/cart'
+import { remove } from '../../store/reducers/cart'
 
 type Installment = {
   quantity: number

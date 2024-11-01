@@ -6,6 +6,7 @@ import Header from '../../components/Header'
 import Gallery from '../../components/Gallery'
 
 import { useGetGameQuery } from '../../services/api'
+import Loader from '../../components/Loader'
 {
   /* <div>
   // import residentEvil from '../../assets/images/resident.png'
@@ -21,9 +22,13 @@ import { useGetGameQuery } from '../../services/api'
 // }
 // export default Product
 
+type GameParams = {
+  id: string
+}
+
 const Product = () => {
-  const { id } = useParams()
-  const { data: game } = useGetGameQuery(id!) // !depois indica que é obrigatorio
+  const { id } = useParams() as GameParams
+  const { data: game } = useGetGameQuery(id) // !depois indica que é obrigatorio
 
   {
     /* <div>
@@ -37,7 +42,7 @@ const Product = () => {
   }
 
   if (!game) {
-    return <h4>Carregando...</h4>
+    return <Loader />
   }
 
   return (
