@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
 import { useDispatch, useSelector } from 'react-redux'
-import InputMask from 'react-input-mask'
 
 import Button from '../../components/Button'
 import Card from '../../components/Card'
@@ -55,9 +54,9 @@ const Checkout = () => {
         .min(5, 'O nome precisar ter pelo menos 5 caracteres')
         .required('O campo é obrigatorio'),
       telefone: Yup.string()
-        .min(10, 'Digite o telefone com DDD')
-        .max(14, 'Digite o telefone com DDD')
-        .required('O campo é obrigatorio'),
+        .required('O campo é obrigatorio')
+        .min(15, 'Digite o telefone com DDD')
+        .max(15, 'Digite o telefone com DDD'),
       deliveryEmail: Yup.string()
         .email('E-mail inválido')
         .required('O campo é obrigatorio'),
@@ -65,9 +64,11 @@ const Checkout = () => {
         .oneOf([Yup.ref('deliveryEmail')], 'Os E-mails são diferentes ')
         .required('O campo é obrigatorio'),
       cpf: Yup.string()
+        .required('O campo é obrigatorio')
         .min(14, 'O CPF deve estar completo')
-        .max(14, 'O CPF deve estar completo')
-        .required('O campo é obrigatorio'),
+        .max(14, 'O CPF deve estar completo'),
+
+      //__________________________________________________________________________________
 
       cardOwner: Yup.string()
         .when((values, schema) =>
@@ -89,8 +90,8 @@ const Checkout = () => {
         .when((values, schema) =>
           payWithCard ? schema.required('O campo é obrigatorio') : schema
         )
-        .min(13, 'O campo deve conter o numero completo do cartão')
-        .max(16, 'O campo deve conter o numero completo do cartão'),
+        .min(19, 'O campo deve conter o numero completo do cartão')
+        .max(19, 'O campo deve conter o numero completo do cartão'),
       expiresMonth: Yup.string()
         .when((values, schema) =>
           payWithCard ? schema.required('O campo é obrigatorio') : schema
@@ -113,7 +114,6 @@ const Checkout = () => {
         payWithCard ? schema.required('O campo é obrigatorio') : schema
       )
     }),
-
     onSubmit: (values) => {
       purchase({
         billing: {
@@ -232,6 +232,51 @@ const Checkout = () => {
   //   }
   // }
 
+  const formatPhoneNumber = (value: string) => {
+    return value
+      .replace(/\D/g, '')
+      .replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3')
+      .slice(0, 15)
+  }
+
+  const formatCardNumber = (value: string) => {
+    return (
+      value
+        // .replace(/\s?/g, '')
+        .replace(/[^\d]/g, '')
+        .replace(/(\d{4})/g, '$1 ')
+        .trim()
+        .slice(0, 19)
+    )
+  }
+
+  const formatSecurityCode = (value: string) => {
+    return value.replace(/\D/g, '').slice(0, 3)
+  }
+
+  const formatMonth = (value: string) => {
+    return value.replace(/\D/g, '').slice(0, 2)
+  }
+
+  const formatYear = (value: string) => {
+    return value.replace(/\D/g, '').slice(0, 4)
+  }
+
+  const formatNumber = (value: string) => {
+    return value.replace(/\D/g, '')
+  }
+
+  const formatOnlyLetters = (value: string) => {
+    return value.replace(/[^A-Za-zÀ-ÿ\s]/g, '')
+  }
+
+  const formatCPF = (value: string) => {
+    return value
+      .replace(/\D/g, '')
+      .replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4')
+      .slice(0, 14)
+  }
+
   return (
     <ContainerGeral className="container">
       {isSuccess && data ? (
@@ -328,7 +373,13 @@ const Checkout = () => {
                       type="text"
                       name="fullName"
                       value={form.values.fullName}
-                      onChange={form.handleChange}
+                      onChange={(e) => {
+                        form.handleChange(e)
+                        form.setFieldValue(
+                          'fullName',
+                          formatOnlyLetters(e.target.value)
+                        )
+                      }}
                       onBlur={form.handleBlur}
                       className={checkInputHasError('fullName') ? 'error' : ''}
                     />
@@ -340,15 +391,21 @@ const Checkout = () => {
                 <InputGroup>
                   <div className="group">
                     <label htmlFor="telefone">Telefone:</label>
-                    <InputMask
+                    <input
                       id="telefone"
                       type="tel"
                       name="telefone"
                       value={form.values.telefone}
-                      onChange={form.handleChange}
+                      onChange={(e) => {
+                        form.handleChange(e)
+                        form.setFieldValue(
+                          'telefone',
+                          formatPhoneNumber(e.target.value)
+                        )
+                      }}
                       onBlur={form.handleBlur}
                       className={checkInputHasError('telefone') ? 'error' : ''}
-                      mask={'(99)99999-9999'}
+                      inputMode="numeric"
                     />
                   </div>
                   <small>
@@ -358,15 +415,18 @@ const Checkout = () => {
                 <InputGroup>
                   <div className="group">
                     <label htmlFor="cpf">CPF:</label>
-                    <InputMask
+                    <input
                       id="cpf"
                       type="text"
                       name="cpf"
                       value={form.values.cpf}
-                      onChange={form.handleChange}
+                      onChange={(e) => {
+                        form.handleChange(e)
+                        form.setFieldValue('cpf', formatCPF(e.target.value))
+                      }}
                       onBlur={form.handleBlur}
                       className={checkInputHasError('cpf') ? 'error' : ''}
-                      mask={'999.999.999-99'}
+                      inputMode="numeric"
                     />
                   </div>
                   <small>{getErrorMessage('cpf', form.errors.cpf)}</small>
@@ -460,42 +520,62 @@ const Checkout = () => {
                           type="text"
                           name="cardOwner"
                           value={form.values.cardOwner}
-                          onChange={form.handleChange}
+                          onChange={(e) => {
+                            form.handleChange(e)
+                            form.setFieldValue(
+                              'cardOwner',
+                              formatOnlyLetters(e.target.value)
+                            )
+                          }}
                           onBlur={form.handleBlur}
                           className={
                             checkInputHasError('cardOwner') ? 'error' : ''
                           }
+                          required={payWithCard}
+                          disabled={!payWithCard}
                         />
                       </div>
                       <small>
                         {getErrorMessage('cardOwner', form.errors.cardOwner)}
                       </small>
                     </InputGroup>
-                    <InputGroup>
-                      <div className="group">
-                        <label htmlFor="cpfCardOwner">
-                          CPF do titular do cartão:
-                        </label>
-                        <InputMask
-                          id="cpfCardOwner"
-                          type="text"
-                          name="cpfCardOwner"
-                          value={form.values.cpfCardOwner}
-                          onChange={form.handleChange}
-                          onBlur={form.handleBlur}
-                          className={
-                            checkInputHasError('cpfCardOwner') ? 'error' : ''
-                          }
-                          mask={'999.999.999-99'}
-                        />
-                      </div>
-                      <small>
-                        {getErrorMessage(
-                          'cpfCardOwner',
-                          form.errors.cpfCardOwner
+                    {payWithCard ? (
+                      <InputGroup>
+                        <div className="group">
+                          <label htmlFor="cpfCardOwner">
+                            CPF do titular do cartão:
+                          </label>
+                          <input
+                            id="cpfCardOwner"
+                            type="text"
+                            name="cpfCardOwner"
+                            value={form.values.cpfCardOwner}
+                            onChange={(e) => {
+                              form.handleChange(e)
+                              form.setFieldValue(
+                                'cpfCardOwner',
+                                formatCPF(e.target.value)
+                              )
+                            }}
+                            onBlur={form.handleBlur}
+                            className={
+                              checkInputHasError('cpfCardOwner') ? 'error' : ''
+                            }
+                            inputMode="numeric"
+                            required={payWithCard}
+                            disabled={!payWithCard}
+                          />
+                        </div>
+                        {payWithCard && (
+                          <small>
+                            {getErrorMessage(
+                              'cpfCardOwner',
+                              form.errors.cpfCardOwner
+                            )}
+                          </small>
                         )}
-                      </small>
-                    </InputGroup>
+                      </InputGroup>
+                    ) : null}
                   </Row>
                   <Row marginTop="24px">
                     <InputGroup>
@@ -506,11 +586,19 @@ const Checkout = () => {
                           type="text"
                           name="cardDisplayName"
                           value={form.values.cardDisplayName}
-                          onChange={form.handleChange}
+                          onChange={(e) => {
+                            form.handleChange(e)
+                            form.setFieldValue(
+                              'cardDisplayName',
+                              formatOnlyLetters(e.target.value)
+                            )
+                          }}
                           onBlur={form.handleBlur}
                           className={
                             checkInputHasError('cardDisplayName') ? 'error' : ''
                           }
+                          required={payWithCard}
+                          disabled={!payWithCard}
                         />
                       </div>
                       <small>
@@ -528,11 +616,20 @@ const Checkout = () => {
                           type="text"
                           name="cardNumber"
                           value={form.values.cardNumber}
-                          onChange={form.handleChange}
+                          onChange={(e) => {
+                            form.handleChange(e)
+                            form.setFieldValue(
+                              'cardNumber',
+                              formatCardNumber(e.target.value)
+                            )
+                          }}
                           onBlur={form.handleBlur}
                           className={
                             checkInputHasError('cardNumber') ? 'error' : ''
                           }
+                          required={payWithCard}
+                          disabled={!payWithCard}
+                          inputMode="numeric"
                         />
                       </div>
                       <small>
@@ -545,17 +642,25 @@ const Checkout = () => {
                           <label htmlFor="expiresMonth">
                             Mês de vencimento
                           </label>
-                          <InputMask
+                          <input
                             id="expiresMonth"
                             type="text"
                             name="expiresMonth"
                             value={form.values.expiresMonth}
-                            onChange={form.handleChange}
+                            onChange={(e) => {
+                              form.handleChange(e)
+                              form.setFieldValue(
+                                'expiresMonth',
+                                formatMonth(e.target.value)
+                              )
+                            }}
                             onBlur={form.handleBlur}
                             className={
                               checkInputHasError('expiresMonth') ? 'error' : ''
                             }
-                            mask={'99'}
+                            required={payWithCard}
+                            disabled={!payWithCard}
+                            inputMode="numeric"
                           />
                         </div>
                         <small>
@@ -568,17 +673,25 @@ const Checkout = () => {
                       <InputGroup maxWidth="95px">
                         <div className="group">
                           <label htmlFor="expiresYear">Ano de vencimento</label>
-                          <InputMask
+                          <input
                             id="expiresYear"
                             type="text"
                             name="expiresYear"
                             value={form.values.expiresYear}
-                            onChange={form.handleChange}
+                            onChange={(e) => {
+                              form.handleChange(e)
+                              form.setFieldValue(
+                                'expiresYear',
+                                formatMonth(e.target.value)
+                              )
+                            }}
                             onBlur={form.handleBlur}
                             className={
                               checkInputHasError('expiresYear') ? 'error' : ''
                             }
-                            mask={'99'}
+                            inputMode="numeric"
+                            required={payWithCard}
+                            disabled={!payWithCard}
                           />
                         </div>
                         <small>
@@ -592,17 +705,25 @@ const Checkout = () => {
                     <InputGroup id="cardCode1" maxWidth="48px">
                       <div className="group">
                         <label htmlFor="cardCode">CVV</label>
-                        <InputMask
+                        <input
                           id="cardCode"
                           type="text"
                           name="cardCode"
                           value={form.values.cardCode}
-                          onChange={form.handleChange}
+                          onChange={(e) => {
+                            form.handleChange(e)
+                            form.setFieldValue(
+                              'cardCode',
+                              formatSecurityCode(e.target.value)
+                            )
+                          }}
                           onBlur={form.handleBlur}
                           className={
                             checkInputHasError('cardCode') ? 'error' : ''
                           }
-                          mask={'999'}
+                          inputMode="numeric"
+                          required={payWithCard}
+                          disabled={!payWithCard}
                         />
                       </div>
                       <small>
@@ -614,17 +735,25 @@ const Checkout = () => {
                     <InputGroup id="cardCode2" maxWidth="48px">
                       <div className="group">
                         <label htmlFor="cardCode">CVV</label>
-                        <InputMask
+                        <input
                           id="cardCode"
                           type="text"
                           name="cardCode"
                           value={form.values.cardCode}
-                          onChange={form.handleChange}
+                          onChange={(e) => {
+                            form.handleChange(e)
+                            form.setFieldValue(
+                              'cardCode',
+                              formatSecurityCode(e.target.value)
+                            )
+                          }}
                           onBlur={form.handleBlur}
                           className={
                             checkInputHasError('cardCode') ? 'error' : ''
                           }
-                          mask={'999'}
+                          inputMode="numeric"
+                          required={payWithCard}
+                          disabled={!payWithCard}
                         />
                       </div>
                       <small>
@@ -643,6 +772,8 @@ const Checkout = () => {
                           className={
                             checkInputHasError('installments') ? 'error' : ''
                           }
+                          required={payWithCard}
+                          disabled={!payWithCard}
                         >
                           {installments.map((installment) => (
                             <option
@@ -688,3 +819,5 @@ const Checkout = () => {
   )
 }
 export default Checkout
+
+//_________________________________________________________________________________________________________________________
