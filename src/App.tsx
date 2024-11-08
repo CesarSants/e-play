@@ -17,6 +17,7 @@ import Rotas from './routes'
 import Footer from './components/Footer'
 import { store } from './store'
 import Cart from './components/Cart'
+import ScrollToTop from './ScrollToTop'
 // import Home from './pages/Home'
 // import Categories from './pages/Categories'                   esta importado no arquivo routes
 
@@ -62,6 +63,7 @@ function App() {
 
   return (
     <>
+      <ScrollToTop position={0} />
       <GlobalCss />
       <div className="container">
         {!isProductPage && !isCheckoutPage && <Header />}
