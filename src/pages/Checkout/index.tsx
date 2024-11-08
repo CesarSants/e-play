@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react'
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
 import { useDispatch, useSelector } from 'react-redux'
+import { toast, ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 import Button from '../../components/Button'
 import Card from '../../components/Card'
@@ -26,12 +28,33 @@ type Installment = {
   formattedAmount: string
 }
 
-const Checkout = () => {
+const Checkout: React.FC = () => {
   const [payWithCard, setPayWithCard] = useState(false)
   const [purchase, { data, isSuccess, isLoading }] = usePurchaseMutation()
   const { items } = useSelector((state: RootReducer) => state.cart)
   const [installments, setInstallments] = useState<Installment[]>([])
+  const [toastId, setToastId] = useState<string | number | null>(null)
   const dispatch = useDispatch()
+
+  const alertSuccess = () => {
+    if (toastId === null) {
+      const id = toast.success('Pedido realizado com sucesso!', {
+        containerId: 'cartToast',
+        onClose: () => setToastId(null)
+      })
+      setToastId(id)
+    }
+  }
+
+  const alertError = () => {
+    if (toastId === null) {
+      const id = toast.warn('Por favor, preencha todos os campos.', {
+        containerId: 'cartToast',
+        onClose: () => setToastId(null)
+      })
+      setToastId(id)
+    }
+  }
 
   const totalPrice = getTotalPrice(items)
 
@@ -116,45 +139,46 @@ const Checkout = () => {
         payWithCard ? schema.required('O campo é obrigatorio') : schema
       )
     }),
-    onSubmit: (values) => {
-      purchase({
-        billing: {
-          document: values.cpf,
-          name: values.fullName,
-          email: values.telefone
-        },
-        delivery: {
-          email: values.deliveryEmail
-        },
-        payment: {
-          installments: 1,
-          card: {
-            active: Boolean(payWithCard),
-            code: Number(values.cardCode),
-            name: values.cardDisplayName,
-            number: values.cardNumber,
-            owner: {
-              name: values.cardOwner,
-              document: values.cpfCardOwner
-            },
-            expires: {
-              month: Number(values.expiresMonth),
-              year: Number(values.expiresYear)
+    onSubmit: async (values, { resetForm }) => {
+      try {
+        await purchase({
+          billing: {
+            document: values.cpf,
+            name: values.fullName,
+            email: values.telefone
+          },
+          delivery: {
+            email: values.deliveryEmail
+          },
+          payment: {
+            installments: 1,
+            card: {
+              active: Boolean(payWithCard),
+              code: Number(values.cardCode),
+              name: values.cardDisplayName,
+              number: values.cardNumber,
+              owner: {
+                name: values.cardOwner,
+                document: values.cpfCardOwner
+              },
+              expires: {
+                month: Number(values.expiresMonth),
+                year: Number(values.expiresYear)
+              }
             }
-          }
-        },
-        products: items.map((item) => ({
-          id: item.id,
-          price: item.prices.current as number
-        }))
-      })
-      // if (isSuccess) {
-      //   // Limpar o carrinho após a finalização da compra
-      //   dispatch(clearItems())
-      // }
+          },
+          products: items.map((item) => ({
+            id: item.id,
+            price: item.prices.current as number
+          }))
+        }).unwrap()
+        alertSuccess()
+        resetForm()
+      } catch {
+        alertError()
+      }
     }
   })
-
   const timestamp = () => {
     const options: Intl.DateTimeFormatOptions = {
       timeZone: 'America/Sao_Paulo',
@@ -281,6 +305,16 @@ const Checkout = () => {
 
   return (
     <ContainerGeral className="container">
+      <ToastContainer
+        containerId={'cartToast'}
+        position="top-right"
+        autoClose={3000}
+        draggable
+        pauseOnHover
+        rtl={false}
+        newestOnTop
+        pauseOnFocusLoss
+      />
       {isSuccess && data ? (
         <>
           <HeaderCheckout />
@@ -836,7 +870,7 @@ const Checkout = () => {
               htmlType="submit"
               type="button"
               title="Clique aqui para finalizar a compra"
-              // onClick={clear}
+              // onClick={handleSubmit}
               disabled={isLoading}
             >
               {isLoading ? 'Finalizando Compra...' : 'Finalizar a compra'}
