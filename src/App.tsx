@@ -58,11 +58,14 @@ import Cart from './components/Cart'
 function App() {
   const location = useLocation()
   const isProductPage = location.pathname.includes('/product')
+  const isCheckoutPage = location.pathname.includes('/checkout')
 
   return (
     <>
       <GlobalCss />
-      <div className="container">{!isProductPage && <Header />}</div>
+      <div className="container">
+        {!isProductPage && !isCheckoutPage && <Header />}
+      </div>
       <Rotas />
       <Footer />
       <Cart />

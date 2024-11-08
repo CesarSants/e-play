@@ -36,17 +36,23 @@ export const InputGroup = styled.div<InputGroupProps>`
     background-color: ${cores.branca};
     height: 32px;
     padding: 0 8px;
-    border: 1px solid ${cores.branca};
+    border: 2px solid ${cores.branca};
     width: 100%;
     margin-bottom: 4px;
 
+    &:-webkit-autofill {
+      -webkit-box-shadow: 0 0 0 30px ${cores.branca} inset !important;
+      /* -webkit-text-fill-color: green; */
+    }
+
     &.error {
-      border: 1px solid red;
+      border: 2px solid #4e2f76;
+      background-color: #c0aed7;
     }
   }
 
   small {
-    color: ${cores.branca};
+    color: yellow;
     font-size: 12px;
     display: block;
     height: auto;
