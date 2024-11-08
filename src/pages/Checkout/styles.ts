@@ -27,6 +27,10 @@ export const InputGroup = styled.div<InputGroupProps>`
     height: 16px;
   }
 
+  input {
+    font-size: 16px;
+  }
+
   input,
   select {
     background-color: ${cores.branca};
