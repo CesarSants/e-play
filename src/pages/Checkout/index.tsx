@@ -18,9 +18,10 @@ import { formataPreco, getTotalPrice } from '../../utils'
 
 import { InputGroup, Row, Cont, TabButton, ContainerGeral } from './styles'
 // import { remove, clearItems } from '../../store/reducers/cart'
-import { remove } from '../../store/reducers/cart'
+import { clearItems, remove } from '../../store/reducers/cart'
 import HeaderCheckout from '../../components/HeaderCheckout'
 import Header from '../../components/Header'
+import { setPurchaseSummary } from '../../store/reducers/purchaseSumarySlice'
 
 type Installment = {
   quantity: number
@@ -35,6 +36,38 @@ const Checkout: React.FC = () => {
   const [installments, setInstallments] = useState<Installment[]>([])
   const [toastId, setToastId] = useState<string | number | null>(null)
   const dispatch = useDispatch()
+
+  const finalizePurchase = (
+    items: Game[],
+    paymentMethod: string,
+    installments: number
+  ) => {
+    const total = getTotalPrice(items)
+    const getFormattedDate = () => {
+      const options: Intl.DateTimeFormatOptions = {
+        timeZone: 'America/Sao_Paulo',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+      }
+      return new Date().toLocaleString('pt-BR', options)
+    }
+    const purchaseDate = getFormattedDate()
+
+    dispatch(
+      setPurchaseSummary({
+        items,
+        total,
+        paymentMethod,
+        installments,
+        purchaseDate
+      })
+    )
+    dispatch(clearItems())
+  }
 
   const alertSuccess = () => {
     if (toastId === null) {
