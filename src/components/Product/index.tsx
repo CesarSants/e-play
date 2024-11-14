@@ -42,9 +42,7 @@ const Product = ({
       <Titulo>{title}</Titulo>
       <Tag>{category}</Tag>
       <Tag>{system}</Tag>
-      <Descricao>
-        {description} {/*{getDescricao(description)}*/}
-      </Descricao>
+      <Descricao>{description}</Descricao>
     </Card>
   )
 }

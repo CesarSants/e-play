@@ -103,7 +103,7 @@ export const LinkItem = styled.li`
 `
 
 export const CartButton = styled.a`
-  display: none;
+  /* display: none; */ //////////////////// ativar novamente depois
   cursor: pointer;
 
   img {

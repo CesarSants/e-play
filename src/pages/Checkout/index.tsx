@@ -13,7 +13,7 @@ import boleto from '../../assets/images/boleto.png'
 import cartao from '../../assets/images/cartao.png'
 
 import { usePurchaseMutation } from '../../services/api'
-import { RootReducer } from '../../store'
+import { AppDispatch, RootReducer } from '../../store'
 import { formataPreco, getTotalPrice } from '../../utils'
 
 import { InputGroup, Row, Cont, TabButton, ContainerGeral } from './styles'
@@ -35,9 +35,13 @@ const Checkout: React.FC = () => {
   const { items } = useSelector((state: RootReducer) => state.cart)
   const [installments, setInstallments] = useState<Installment[]>([])
   const [toastId, setToastId] = useState<string | number | null>(null)
-  const dispatch = useDispatch()
+  const dispatch = useDispatch<AppDispatch>()
+  const purchaseSummary = useSelector(
+    (state: RootReducer) => state.purchaseSummary
+  )
 
   const finalizePurchase = (
+    dispatch: AppDispatch,
     items: Game[],
     paymentMethod: string,
     installments: number
@@ -66,7 +70,7 @@ const Checkout: React.FC = () => {
         purchaseDate
       })
     )
-    dispatch(clearItems())
+    // dispatch(clearItems())
   }
 
   const alertSuccess = () => {
@@ -207,23 +211,17 @@ const Checkout: React.FC = () => {
         }).unwrap()
         alertSuccess()
         resetForm()
+        finalizePurchase(
+          dispatch,
+          items,
+          values.cardNumber,
+          values.installments
+        )
       } catch {
         alertError()
       }
     }
   })
-  const timestamp = () => {
-    const options: Intl.DateTimeFormatOptions = {
-      timeZone: 'America/Sao_Paulo',
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric'
-    }
-    return new Date().toLocaleString('pt-BR', options)
-  }
 
   const getErrorMessage = (fieldName: string, message?: string) => {
     const isTouched = fieldName in form.touched
@@ -267,19 +265,19 @@ const Checkout: React.FC = () => {
     }
   }, [totalPrice])
 
-  // useEffect(() => {
-  //   if (isSuccess) {
-  //     dispatch(clearItems())
-  //   }
-  // }, [isSuccess, dispatch])
+  useEffect(() => {
+    if (isSuccess) {
+      dispatch(clearItems())
+    }
+  }, [isSuccess, dispatch])
 
-  // if (items.length === 0 && isSuccess === false) {
-  //   return <Navigate to="/" />
-  // }
-
-  if (items.length === 0) {
+  if (items.length === 0 && isSuccess === false) {
     return <Navigate to="/" />
   }
+
+  // if (items.length === 0) {    /////////////////////// ativar novamente depois
+  //   return <Navigate to="/" />
+  // }
 
   const removeItem = (id: number) => {
     dispatch(remove(id))
@@ -354,35 +352,39 @@ const Checkout: React.FC = () => {
           <Card title="Muito obrigado">
             <div>
               <p>
-                {items.length > 1
+                {purchaseSummary.items.length > 1
                   ? `É com satisfação que informamos que recebemos seu pedido dos jogos
-                ${items.map((item) => item.name).join(', ')} com sucesso!`
-                  : items.length === 1
-                  ? `É com satisfação que informamos que recebemos seu pedido do jogo ${items[0].name} com sucesso!`
+                ${purchaseSummary.items
+                  .map((item) => item.name)
+                  .join(', ')} com sucesso!`
+                  : purchaseSummary.items.length === 1
+                  ? `É com satisfação que informamos que recebemos seu pedido do jogo ${purchaseSummary.items[0].name} com sucesso!`
                   : null}
                 <br />
                 Abaixo estão os detalhes da sua compra:
                 <br />
                 Número do pedido: {data.orderId}
                 <br />
-                Data e horário da compra: {timestamp()}
+                Data e horário da compra: {purchaseSummary.purchaseDate}
                 <br />
-                Valor Total: {formataPreco(totalPrice)}
+                Valor Total: {formataPreco(purchaseSummary.total)}
                 <br />
                 Forma de pagamento:
-                {payWithCard ? ' Cartão de credito' : ' Boleto Bancário'}
+                {purchaseSummary.paymentMethod
+                  ? ' Cartão de credito'
+                  : ' Boleto Bancário'}
                 <br />
-                {payWithCard
+                {purchaseSummary.paymentMethod
                   ? `Parcelado em: ${
-                      form.values.installments
+                      purchaseSummary.installments
                     }x de ${formataPreco(
-                      totalPrice / form.values.installments
+                      purchaseSummary.total / purchaseSummary.installments
                     )}`
                   : ''}
               </p>
               <br />
               <p>
-                {payWithCard
+                {purchaseSummary.paymentMethod
                   ? `Para pagamento com cartão de crédito, a liberação do
                   código de ativação ocorrerá após a aprovação da transação pela
                   operadora do cartão. Você receberá o código no e-mail cadastrado

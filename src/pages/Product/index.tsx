@@ -59,8 +59,9 @@ const Product = () => {
           <br />
           <b>Desenvolvedor:</b> {game.details.developer} <br />
           <b>Editora:</b> {game.details.publisher} <br />
-          <b>Idiomas:</b> O jogo oferece suporte a diversos idiomas, incluindo
-          {game.details.languages.join(', ')} .As opções de áudio e legendas
+          <b>Idiomas:</b> O jogo oferece suporte a diversos idiomas,&nbsp;
+          incluindo;&nbsp;
+          {game.details.languages.join(', ')}. As opções de áudio e legendas
           podem ser ajustadas nas configurações do jogo.
         </p>
       </Section>
